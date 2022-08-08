@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container } from './styles/App.styles';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Card } from './components/Card';
+import { useEffect, useState } from 'react';
+
+interface IQuotableProps {
+  content: string;
+  length: number;
 }
 
-export default App;
+export function App() {
+  const [quotable, setQuotable] = useState<IQuotableProps | null>(null);
+
+  function handleGenNewAdviceGenerator() {
+    console.log('a');
+    fetch('https://api.quotable.io/random')
+      .then((res) => res.json())
+      .then((data) => setQuotable(data));
+  }
+
+  useEffect(() => {
+    fetch('https://api.quotable.io/random')
+      .then((res) => res.json())
+      .then((data) => setQuotable(data));
+  }, []);
+
+  console.log(quotable);
+
+  return (
+    <Container>
+      {quotable && (
+        <Card
+          length={quotable.length}
+          message={quotable.content}
+          onClick={handleGenNewAdviceGenerator}
+        />
+      )}
+    </Container>
+  );
+}
