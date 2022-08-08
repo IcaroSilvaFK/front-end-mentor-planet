@@ -8,22 +8,6 @@ interface ICardProps {
 }
 
 export function Card({ message, onClick, length }: ICardProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener('resize', isMobileWindow);
-
-    return () => {
-      window.removeEventListener('resize', isMobileWindow);
-    };
-  }, []);
-
-  function isMobileWindow() {
-    if (window.innerWidth <= 500) {
-      setIsMobile(true);
-    }
-  }
-
   return (
     <Container>
       <SectionHeader>
